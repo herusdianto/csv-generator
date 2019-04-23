@@ -1,49 +1,40 @@
 <template>
   <div class="container is-fluid">
-    <div class="columns is-multiline is-mobile">
+    <div class="columns is-multiline">
       <div class="column">
-        <div class="field">
-          <label for="row-count" class="label">Row Count</label>
-
-          <input id="row-count" class="input" type="text" placeholder="CSV row count" v-model="config.rowCount">
-        </div>
+        <b-field label="Row Count">
+          <b-input v-model="config.rowCount"></b-input>
+        </b-field>
       </div>
 
       <div class="column">
-        <div class="field">
-          <label for="column-count" class="label">Column Count</label>
-
-          <input id="column-count" class="input" type="text" placeholder="CSV column count" v-model="config.columnCount">
-        </div>
+        <b-field label="Column Count">
+          <b-input v-model="config.columnCount"></b-input>
+        </b-field>
       </div>
 
       <div class="column">
-        <div class="field">
-          <label for="delimiter" class="label">CSV Delimiter</label>
-
-          <input id="delimiter" class="input" type="text" placeholder="CSV delimiter" v-model="config.delimiter">
-        </div>
+        <b-field label="CSV Delimiter">
+          <b-input v-model="config.delimiter"></b-input>
+        </b-field>
       </div>
 
       <div class="column">
         <div class="field">
           <label for="with-header" class="label">With Header</label>
-          
-          <label class="checkbox">
-            <input id="with-header" type="checkbox" v-model="config.withHeader" @change="populateHeaders">
-              Yes
-            </label>
+
+          <b-checkbox size="is-medium" v-model="config.withHeader" @input="populateHeaders">
+            Yes
+          </b-checkbox>
         </div>
       </div>
     </div>
 
-    <div class="columns is-multiline is-mobile" v-show="config.withHeader">
-      <div class="column is-3" v-for="(header, index) in config.headers" :key="index">
-        <div class="field">
-          <label :for="`header-${index}`" class="label">{{ `Header column ${index + 1}` }}</label>
-
-          <input id="`header-${index}`" class="input" type="text" :placeholder="`Type header column ${index + 1}`" v-model="config.headers[index]">
-        </div>
+    <div class="columns is-multiline" v-show="config.withHeader">
+      <div class="column is-2" v-for="(header, index) in config.headers" :key="index">
+        <b-field :label="`Header Column ${index + 1}`">
+          <b-input v-model="config.headers[index]"></b-input>
+        </b-field>
       </div>
     </div>
   </div>
@@ -55,7 +46,7 @@
       return {
         config: {
           rowCount: 10,
-          columnCount: 5,
+          columnCount: 6,
           delimiter: ';',
           withHeader: false,
           headers: [],
