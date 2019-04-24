@@ -55,7 +55,7 @@
     <div class="columns is-multiline">
       <div class="column">
         <div class="buttons is-centered">
-          <b-button type="is-primary" rounded>DOWNLOAD</b-button>
+          <b-button type="is-primary" rounded @click.native="download">DOWNLOAD</b-button>
         </div>
       </div>
     </div>
@@ -63,6 +63,8 @@
 </template>
 
 <script>
+  import Faker from 'faker'
+
   export default {
     data() {
       return {
@@ -200,6 +202,99 @@
       },
       capitalize(value) {
         return value.charAt(0).toUpperCase() + value.slice(1)
+      },
+      leftPadNumber(value, size) {
+        let string = value.toString()
+
+        while (string.length < (size || 2)) {
+          string = "0" + string
+        }
+
+        return string
+      },
+      getFileName() {
+        let now = new Date()
+        let year = now.getFullYear()
+        let month = this.leftPadNumber(now.getMonth() + 1, 2)
+        let date = this.leftPadNumber(now.getDate(), 2)
+        let hours = this.leftPadNumber(now.getHours(), 2)
+        let minutes = this.leftPadNumber(now.getMinutes(), 2)
+        let seconds = this.leftPadNumber(now.getSeconds(), 2)
+
+        let prefix = 'CSV_GENERATOR'
+        let timestamp = `${year}${month}${date}${hours}${minutes}${seconds}`
+        let extension = '.csv'
+
+        let fileName = `${prefix}_${timestamp}${extension}`
+
+        return fileName
+      },
+      generateContent() {
+        let { rowCount, columnCount, delimiter, withHeader, headers, columns } = this.config
+
+        let contents = []
+
+        if (withHeader) {
+          let headerContent = headers.join(delimiter)
+
+          contents.push(headerContent)
+        }
+
+        for (let index = 0; index < rowCount; index++) {
+          let columnContents = []
+
+          columns.forEach(column => {
+            let { group, value } = column
+
+            let columnValue = Faker[group][value]()
+
+            columnContents.push(columnValue)
+          })
+
+          let columnContent = columnContents.join(delimiter)
+
+          contents.push(columnContent)
+        }
+
+        let content = contents.join('\n')
+
+        return content
+      },
+      download() {
+        let content = this.generateContent()
+
+        let fileName = this.getFileName()
+        let mimeType = 'text/csv;encoding:utf-8'
+        let a = document.createElement('a')
+
+        if (navigator.msSaveBlob) { // IE10
+          navigator.msSaveBlob(
+            new Blob([content],
+            {
+              type: mimeType
+            }),
+            fileName
+          );
+        }
+        else if (URL && 'download' in a) { //html5 A[download]
+          a.href = URL.createObjectURL(
+            new Blob([content],
+            {
+              type: mimeType
+            })
+          );
+
+          a.setAttribute('download', fileName);
+
+          document.body.appendChild(a);
+
+          a.click();
+
+          document.body.removeChild(a);
+        }
+        else {
+          location.href = 'data:application/octet-stream,' + encodeURIComponent(content); // only this mime type is supported
+        }
       },
     },
   }
