@@ -56,6 +56,7 @@
       <div class="column">
         <div class="buttons is-centered">
           <b-button type="is-primary" rounded @click.native="download">DOWNLOAD</b-button>
+          <b-button type="is-danger" rounded @click.native="reset">RESET</b-button>
         </div>
       </div>
     </div>
@@ -192,7 +193,7 @@
         if (columns.length <= columnCount) {
           for (let index = 0; index < columnCount; index++) {
             if (!columns[index]) {
-              columns[index] = {}
+              columns[index] = { group: 'name', value: 'findName', label: 'Find Name' }
             }
           }
         }
@@ -294,6 +295,23 @@
         }
         else {
           location.href = 'data:application/octet-stream,' + encodeURIComponent(content); // only this mime type is supported
+        }
+      },
+      reset() {
+        this.config = {
+          rowCount: 10,
+          columnCount: 6,
+          delimiter: ';',
+          withHeader: false,
+          headers: [],
+          columns: [
+            { group: 'name', value: 'findName', label: 'Find Name' },
+            { group: 'name', value: 'findName', label: 'Find Name' },
+            { group: 'name', value: 'findName', label: 'Find Name' },
+            { group: 'name', value: 'findName', label: 'Find Name' },
+            { group: 'name', value: 'findName', label: 'Find Name' },
+            { group: 'name', value: 'findName', label: 'Find Name' },
+          ],
         }
       },
     },
