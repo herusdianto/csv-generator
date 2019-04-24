@@ -49,6 +49,10 @@
             </optgroup>
           </b-select>
         </b-field>
+
+        <b-input v-model="config.columns[index].custom" v-show="config.columns[index].group === 'custom' && config.columns[index].value === 'spesific'"></b-input>
+
+        <b-input v-model="config.columns[index].custom" v-show="config.columns[index].group === 'custom' && config.columns[index].value === 'random'" placeholder="Separate values with comma"></b-input>
       </div>
     </div>
 
@@ -157,6 +161,13 @@
             items: [
               { group: 'random', value: 'number', label: 'Number' },
               { group: 'random', value: 'uuid', label: 'UUID' },
+            ],
+          },
+          {
+            group: 'custom',
+            items: [
+              { group: 'custom', value: 'spesific', label: 'Spesific', custom: null },
+              { group: 'custom', value: 'random', label: 'Random', custom: null },
             ],
           },
         ],
@@ -276,18 +287,33 @@
           let columnContents = []
 
           columns.forEach(column => {
-            let { group, value } = column
+            let { group, value, custom } = column
 
-            let columnValue = Faker[group][value]()
+            let columnValue = ''
 
-            // change column value to yyyy-mm-dd format
-            if (group === 'date') {
-              columnValue = this.formatDate(columnValue)
+            if (group !== 'custom') {
+               columnValue = Faker[group][value]()
+
+              // change column value to yyyy-mm-dd format
+              if (group === 'date') {
+                columnValue = this.formatDate(columnValue)
+              }
+
+              // change email to lowercase
+              if (value === 'email') {
+                columnValue = columnValue.toLowerCase()
+              }
             }
+            else {
+              if (value === 'spesific') {
+                columnValue = custom
+              }
 
-            // change email to lowercase
-            if (value === 'email') {
-              columnValue = columnValue.toLowerCase()
+              if (value === 'random') {
+                let customs = custom.split(',')
+
+                columnValue = customs[Math.floor(Math.random() * customs.length)];
+              }
             }
 
             columnContents.push(columnValue)
