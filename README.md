@@ -1,4 +1,6 @@
-# csv_generator
+# CSV Generator
+
+This is client side tool for generate CSV file for your testing purpose, using [Buefy](https://buefy.org/) for frontend and [Faker.JS](https://github.com/marak/Faker.js/) to populate the data.
 
 ## Project setup
 ```
