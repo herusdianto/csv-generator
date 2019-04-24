@@ -108,7 +108,6 @@
             items: [
               { group: 'date', value: 'past', label: 'Past' },
               { group: 'date', value: 'future', label: 'Future' },
-              { group: 'date', value: 'between', label: 'Between' },
               { group: 'date', value: 'recent', label: 'Recent' },
             ],
           },
@@ -213,6 +212,15 @@
 
         return string
       },
+      formatDate(value) {
+        let year = value.getFullYear()
+        let month = this.leftPadNumber(value.getMonth() + 1, 2)
+        let date = this.leftPadNumber(value.getDate(), 2)
+
+        let result = `${year}-${month}-${date}`
+
+        return result
+      },
       getFileName() {
         let now = new Date()
         let year = now.getFullYear()
@@ -248,6 +256,10 @@
             let { group, value } = column
 
             let columnValue = Faker[group][value]()
+
+            if (group === 'date') {
+              columnValue = this.formatDate(columnValue)
+            }
 
             columnContents.push(columnValue)
           })
