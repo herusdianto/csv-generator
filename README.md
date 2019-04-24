@@ -2,6 +2,8 @@
 
 This is client side tool for generate CSV file for your testing purpose, using [Buefy](https://buefy.org/) for frontend and [Faker.JS](https://github.com/marak/Faker.js/) to populate the data.
 
+Your last changes will be saved to browser local storage.
+
 ## Project setup
 ```
 yarn install
