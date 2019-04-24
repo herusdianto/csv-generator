@@ -36,9 +36,9 @@
         <div class="field">
           <label for="with-header" class="label">With Header</label>
 
-          <b-checkbox size="is-medium" v-model="config.withHeader" @input="populateHeaders">
-            Yes
-          </b-checkbox>
+          <b-switch size="is-medium" v-model="config.withHeader" @input="populateHeaders">
+            {{ config.withHeader ? 'Yes' : 'No' }}
+          </b-switch>
         </div>
       </div>
     </div>
