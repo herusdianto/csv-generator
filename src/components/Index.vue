@@ -67,6 +67,13 @@
   import Faker from 'faker'
 
   export default {
+    mounted() {
+      let config = this.getLocalStorage()
+
+      if (config) {
+        this.config = config
+      }
+    },
     data() {
       return {
         config: {
@@ -168,6 +175,20 @@
       }
     },
     methods: {
+      saveLocalStorage() {
+        let config = JSON.stringify(this.config)
+
+        window.localStorage.setItem('CSV_GENERATOR_CONFIG', config)
+      },
+      getLocalStorage() {
+        let config = window.localStorage.getItem('CSV_GENERATOR_CONFIG')
+
+        if (!config) {
+          return null
+        }
+
+        return JSON.parse(config)
+      },
       populateHeaders() {
         let {withHeader, headers} = this.config
         let columnCount = this.columnCount
@@ -239,6 +260,8 @@
         return fileName
       },
       generateContent() {
+        this.saveLocalStorage()
+
         let { rowCount, columnCount, delimiter, withHeader, headers, columns } = this.config
 
         let contents = []
@@ -331,6 +354,8 @@
             { group: 'name', value: 'findName', label: 'Find Name' },
           ],
         }
+
+        this.saveLocalStorage()
       },
     },
   }
