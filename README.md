@@ -4,6 +4,8 @@ This is client side tool for generate CSV file for your testing purpose, using [
 
 Your last changes will be saved to browser local storage.
 
+You can see the demo [here](https://csv-generator-heru.firebaseapp.com/).
+
 ## Project setup
 ```
 yarn install
