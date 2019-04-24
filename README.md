@@ -1,6 +1,8 @@
 # CSV Generator
 
-This is tool to generate CSV file for your testing purpose (eg. import validation), using [Buefy](https://buefy.org/) for frontend and [Faker.JS](https://github.com/marak/Faker.js/) to populate the data.
+This is tool to generate CSV file for your testing purpose (eg. import validation).
+
+Built with [VueJS](https://vuejs.org), [Buefy](https://buefy.org/) & [Faker.JS](https://github.com/marak/Faker.js/).
 
 Your last changes will be saved to browser local storage.
 
