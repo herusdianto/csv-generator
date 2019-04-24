@@ -1,5 +1,18 @@
 <template>
   <div class="container is-fluid">
+    <section class="hero is-bold">
+      <div class="hero-body">
+        <div class="container">
+          <h1 class="title">
+            CSV Generator
+          </h1>
+          <h2 class="subtitle">
+            CSV Generator Tool For Testing
+          </h2>
+        </div>
+      </div>
+    </section>
+
     <div class="columns is-multiline">
       <div class="column">
         <b-field label="Row Count">
