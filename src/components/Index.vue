@@ -257,8 +257,14 @@
 
             let columnValue = Faker[group][value]()
 
+            // change column value to yyyy-mm-dd format
             if (group === 'date') {
               columnValue = this.formatDate(columnValue)
+            }
+
+            // change email to lowercase
+            if (value === 'email') {
+              columnValue = columnValue.toLowerCase()
             }
 
             columnContents.push(columnValue)
