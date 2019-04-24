@@ -50,9 +50,9 @@
           </b-select>
         </b-field>
 
-        <b-input v-model="config.columns[index].custom" v-show="config.columns[index].group === 'custom' && config.columns[index].value === 'spesific'"></b-input>
+        <b-input v-model="config.customs[index]" v-show="config.columns[index].group === 'custom' && config.columns[index].value === 'spesific'"></b-input>
 
-        <b-input v-model="config.columns[index].custom" v-show="config.columns[index].group === 'custom' && config.columns[index].value === 'random'" placeholder="Separate values with comma"></b-input>
+        <b-input v-model="config.customs[index]" v-show="config.columns[index].group === 'custom' && config.columns[index].value === 'random'" placeholder="Separate values with comma"></b-input>
       </div>
     </div>
 
@@ -94,6 +94,7 @@
             { group: 'name', value: 'findName', label: 'Find Name' },
             { group: 'name', value: 'findName', label: 'Find Name' },
           ],
+          customs: [],
         },
         options: [
           {
@@ -166,8 +167,8 @@
           {
             group: 'custom',
             items: [
-              { group: 'custom', value: 'spesific', label: 'Spesific', custom: null },
-              { group: 'custom', value: 'random', label: 'Random', custom: null },
+              { group: 'custom', value: 'spesific', label: 'Spesific' },
+              { group: 'custom', value: 'random', label: 'Random' },
             ],
           },
         ],
@@ -273,7 +274,7 @@
       generateContent() {
         this.saveLocalStorage()
 
-        let { rowCount, columnCount, delimiter, withHeader, headers, columns } = this.config
+        let { rowCount, columnCount, delimiter, withHeader, headers, columns, customs } = this.config
 
         let contents = []
 
@@ -286,8 +287,8 @@
         for (let index = 0; index < rowCount; index++) {
           let columnContents = []
 
-          columns.forEach(column => {
-            let { group, value, custom } = column
+          columns.forEach((column, index) => {
+            let { group, value } = column
 
             let columnValue = ''
 
@@ -305,6 +306,8 @@
               }
             }
             else {
+              let custom = customs[index]
+
               if (value === 'spesific') {
                 columnValue = custom
               }
@@ -379,6 +382,7 @@
             { group: 'name', value: 'findName', label: 'Find Name' },
             { group: 'name', value: 'findName', label: 'Find Name' },
           ],
+          customs: []
         }
 
         this.saveLocalStorage()
